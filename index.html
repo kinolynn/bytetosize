@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- HTML in your document's head -->
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <title>Byte To Size | NEiX</title>
+</head>
+<style>
+    :root {
+        font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+        /* user-select: none; */
+        overflow-x: hidden !important;
+    }
+
+    code {
+        white-space: pre;
+    }
+
+</style>
+<script>
+    function bytesToSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', "PB", "EB", "ZB", "YB"];
+
+        if (bytes === 0) {
+            return 'n/a';
+        }
+
+        const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(1024));
+
+        if (i === 0) {
+            return `${bytes} ${sizes[i]}`;
+        }
+
+        return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`;
+    }
+
+
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    clifford: '#da373d',
+                }
+            }
+        }
+    }
+</script>
+
+<body class="w-screen h-screen bg-black text-white flex flex-col items-center justify-center">
+    <div id="app" class="p-8 ">
+        <h1 class="text-6xl font-bold -tracking-wider -ml-1">File Size Converter</h1>
+        <div class="pt-5 w-full flex space-x-4">
+                <!-- input wiyh auto remove spacebar -->
+            <input type="text" id="input" class="p-2 bg-[#2e2e2e] text-white placeholder:text-[#ffffff9f] outline-none w-full" placeholder="Enter file size in bytes" onkeyup="this.value = this.value.replace(/\s/g, '')">
+            <button
+                onclick="document.getElementById('output').innerHTML = 'Output: ' + bytesToSize(document.getElementById('input').value)"
+                class=" border-[1px] border-white p-2 bg-[#2e2e2e] text-white outline-none">Convert</button>
+        </div>
+        <div class="pt-4">
+            <p id="output" class="p-4 border-[1px] border-white/40 bg-[#2e2e2e]">...</p>
+        </div>
+        <!-- Clear Value and Output -->
+        <div class="pt-4">
+            <button
+                onclick="document.getElementById('input').value = ''; document.getElementById('output').innerHTML = '...'"
+                class=" border-[1px] border-white p-2 bg-[#2e2e2e] text-white outline-none">Clear</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
